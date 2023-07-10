@@ -40,7 +40,7 @@ export function Pagination() {
     goToClickedPage(pageNumber)
   }
 
-  if (products !== undefined && products.length < productsPerPage) {
+  if (products !== undefined && products.length === 0) {
     return null
   }
 
