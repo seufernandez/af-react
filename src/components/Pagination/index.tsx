@@ -10,7 +10,6 @@ export function Pagination() {
     lastPage,
     goToClickedPage,
     products,
-    productsPerPage,
   } = useProductsContext()
 
   const siblingsCount = 2
