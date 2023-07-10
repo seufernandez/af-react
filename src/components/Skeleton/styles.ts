@@ -22,7 +22,7 @@ export const SkeletonContainer = styled.div`
 
 export const SkeletonItem = styled.div`
   width: 100%;
-  height: 32rem;
+  height: 33rem;
   background: linear-gradient(90deg, #eee 25%, #f5f5f5 37%, #eee 63%);
   background-size: 200% 100%;
   animation: ${skeletonAnimation} 1.5s ease-in-out infinite;

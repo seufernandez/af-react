@@ -35,10 +35,10 @@ export const ProductItem = styled.div`
   /* background-color: ${(props) => props.theme.white}; */
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  justify-content: space-between;
 
   background-color: ${(props) => props.theme.white};
-  height: 32rem;
+  height: 33rem;
   width: 100%;
 
   border: solid 1px ${(props) => props.theme['gray-200']};
