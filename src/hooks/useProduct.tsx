@@ -163,6 +163,7 @@ const useProducts = (): ProductsContextValue => {
 
   function handleSearchProductByName(searchTerm: string) {
     setSearchProductName(searchTerm)
+    setCurrentPage(1)
   }
 
   function handleChangeOptionOfSortByFilter(
