@@ -24,5 +24,11 @@ export const ProductsTable = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 420px) {
+    grid-template-columns: 1fr;
+    font-size: 0.875rem;
   }
 `

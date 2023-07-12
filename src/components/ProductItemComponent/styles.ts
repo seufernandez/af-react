@@ -1,5 +1,84 @@
 import { styled } from 'styled-components'
 
+export const ProductItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-color: ${(props) => props.theme.white};
+  height: 33rem;
+  width: 100%;
+
+  border: solid 1px ${(props) => props.theme['gray-200']};
+  border-radius: 0.5rem;
+
+  padding: 1.25rem;
+
+  section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media (max-width: 840px) {
+    padding: 1rem 0.5rem;
+
+    section {
+      gap: 0.4rem;
+    }
+  }
+`
+
+export const ProductImage = styled.img`
+  height: 18rem;
+  width: 100%;
+
+  border-radius: 0.5rem;
+  object-fit: contain;
+`
+
+export const ProductTitle = styled.span`
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: 0.44px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  text-overflow: ellipsis;
+`
+
+export const ProductRating = styled.div`
+  display: flex;
+  justify-content: flex-start;
+
+  .rating-number {
+    margin-left: 0.5rem;
+  }
+`
+export const ProductPrice = styled.b`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  font-size: 1.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+`
+export const ProductAmount = styled.input`
+  width: 3.2rem;
+  height: 2rem;
+
+  border-radius: 4px;
+  border: 1px solid var(--gray-30, #b4b4bb);
+
+  padding: 0.5rem;
+`
+
 export const AddProductToCartButton = styled.button`
   display: flex;
   justify-content: center;
@@ -29,75 +108,8 @@ export const AddProductToCartButton = styled.button`
     height: 1.5rem;
     width: 1.5rem;
   }
-`
 
-export const ProductItem = styled.div`
-  /* background-color: ${(props) => props.theme.white}; */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  background-color: ${(props) => props.theme.white};
-  height: 33rem;
-  width: 100%;
-
-  border: solid 1px ${(props) => props.theme['gray-200']};
-  border-radius: 0.5rem;
-
-  padding: 1.25rem;
-
-  section {
-    display: flex;
-    justify-content: space-between;
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
   }
-`
-
-export const ProductImage = styled.img`
-  height: 18rem;
-  width: 100%;
-
-  border-radius: 0.5rem;
-  object-fit: contain;
-`
-
-export const ProductTitle = styled.span`
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 150%;
-  letter-spacing: 0.44px;
-
-  min-height: 4.5rem;
-
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  text-overflow: ellipsis;
-`
-
-export const ProductRating = styled.div`
-  display: flex;
-  justify-content: flex-start;
-
-  .rating-number {
-    margin-left: 0.5rem;
-  }
-`
-export const ProductPrice = styled.b`
-  font-family: Inter;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%;
-`
-export const ProductAmount = styled.input`
-  width: 4rem;
-  height: 36px;
-  flex-shrink: 0;
-
-  border-radius: 4px;
-  border: 1px solid var(--gray-30, #b4b4bb);
-
-  padding: 0.5rem;
 `

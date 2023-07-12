@@ -37,17 +37,13 @@ export const StyledButton = styled.button`
 
   cursor: pointer;
 
-  @media (max-width: 768px) {
+  @media (max-width: 420px) {
     margin: 8px 16px;
   }
 `
 
 export const CartIconContainer = styled.div`
   position: relative;
-
-  border-radius: 0.5rem;
-  border: none;
-
   text-align: left;
 `
 
@@ -55,7 +51,7 @@ export const CartIcon = styled(cartIcon)`
   fill: ${(props) => props.theme.white};
   height: 1rem;
   width: 1rem;
-  margin: 0.5rem;
+  margin: 0.5rem 0.5rem 0.5rem 0;
 `
 export const CounterBadge = styled.span`
   position: absolute;
