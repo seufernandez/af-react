@@ -94,11 +94,6 @@ interface CartReducerValueProps {
   totalPrice: number
 }
 
-const initialReducerValue: CartReducerValueProps = {
-  cartProductsArray: [],
-  totalPrice: 0,
-}
-
 function cartProductsReducer(
   state: CartReducerValueProps,
   action: CartProductsReducerActionProps,
@@ -127,13 +122,18 @@ function cartProductsReducer(
         productAmount: updatedAmount,
       }
 
-      return {
+      const updatedCartState = {
         ...state,
         cartProductsArray: updatedProductsArray,
         totalPrice: state.totalPrice + totalPriceAdded,
       }
+
+      saveCartStateToLocalStorage(updatedCartState)
+
+      return updatedCartState
     }
-    return {
+
+    const updatedCartState = {
       cartProductsArray: [
         ...state.cartProductsArray,
         {
@@ -144,8 +144,40 @@ function cartProductsReducer(
       ],
       totalPrice: state.totalPrice + totalPriceAdded,
     }
+
+    saveCartStateToLocalStorage(updatedCartState)
+
+    return updatedCartState
   }
+
   return state
+}
+
+function saveCartStateToLocalStorage(state: CartReducerValueProps) {
+  try {
+    const serializedState = JSON.stringify(state)
+    localStorage.setItem('afreact_cart_state', serializedState)
+  } catch (error) {
+    console.error('Erro ao salvar estado no localStorage:', error)
+  }
+}
+
+const initialReducerValue: CartReducerValueProps = {
+  cartProductsArray: [],
+  totalPrice: 0,
+}
+
+function loadCartStateFromLocalStorage(): CartReducerValueProps {
+  try {
+    const serializedState = localStorage.getItem('afreact_cart_state')
+    if (serializedState === null) {
+      return initialReducerValue
+    }
+    return JSON.parse(serializedState)
+  } catch (error) {
+    console.error('Erro ao obter estado do localStorage:', error)
+    return initialReducerValue
+  }
 }
 
 const useProducts = (): ProductsContextValue => {
@@ -158,7 +190,7 @@ const useProducts = (): ProductsContextValue => {
 
   const [cartProductsState, cartProductsDispatch] = useReducer(
     cartProductsReducer,
-    initialReducerValue as never,
+    loadCartStateFromLocalStorage() as never,
   )
 
   function handleSearchProductByName(searchTerm: string) {
