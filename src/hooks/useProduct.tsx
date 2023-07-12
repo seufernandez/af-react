@@ -117,7 +117,6 @@ function cartProductsReducer(
     )
 
     if (existingProductIndex !== -1) {
-      // Se o produto já existe, atualiza apenas a quantidade
       const updatedAmount =
         state.cartProductsArray[existingProductIndex].productAmount +
         addedProductAmount
