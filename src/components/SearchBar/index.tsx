@@ -33,7 +33,7 @@ export function SearchBar() {
     if (value !== '') {
       const newTimer = window.setTimeout(() => {
         performSearch(value)
-      }, 500) // Atraso de 300ms
+      }, 500)
       setTimer(newTimer)
     } else {
       clearSearch()

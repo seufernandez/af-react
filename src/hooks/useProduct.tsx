@@ -348,7 +348,7 @@ const useProducts = (): ProductsContextValue => {
       return { productsArray, lastPage }
     },
     {
-      staleTime: 1000 * 60, // 1 min
+      staleTime: 1000 * 60,
     },
   )
 

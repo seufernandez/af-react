@@ -20,8 +20,8 @@ export function ProductsSection() {
   }, [])
 
   useEffect(() => {
-    scrollToTop() // Inicia a animação de rolagem
-  }, [products, scrollToTop]) // Executa o efeito sempre que a localização mudar
+    scrollToTop()
+  }, [products, scrollToTop])
 
   if (isLoadingProducts) {
     return (
