@@ -65,6 +65,7 @@ interface ProductsContextValue {
     option: 'rating_DESC' | 'price_DESC' | '_publishedAt_DESC',
   ) => void
   handleSearchProductByName: (searchTerm: string) => void
+  searchProductName: string
   productsPerPage: number
 }
 
@@ -86,6 +87,7 @@ const ProductsContext = createContext<ProductsContextValue>({
   productsAddedToCart: [],
   handleChangeOptionOfSortByFilter: () => {},
   handleSearchProductByName: () => {},
+  searchProductName: '',
   productsPerPage: 0,
 })
 
@@ -180,21 +182,75 @@ function loadCartStateFromLocalStorage(): CartReducerValueProps {
   }
 }
 
+function loadCurrentPageFromLocalStorage(): number {
+  try {
+    const savedNumber = localStorage.getItem('afreact_current_page')
+
+    if (savedNumber === null) {
+      return 1
+    }
+
+    const parsedNumber = parseInt(savedNumber)
+    return parsedNumber
+  } catch (error) {
+    console.error('Erro ao obter estado do localStorage:', error)
+    return 1
+  }
+}
+
+function saveCurrentPageOnLocalStorage(currentPage: number) {
+  try {
+    localStorage.setItem('afreact_current_page', currentPage.toString())
+  } catch (error) {
+    console.error('Erro ao salvar estado no localStorage:', error)
+  }
+}
+
+function loadSearchTermFromLocalStorage(): string {
+  try {
+    const searchTerm = localStorage.getItem('afreact_search_term')
+
+    if (searchTerm === null) {
+      return ''
+    }
+
+    return searchTerm
+  } catch (error) {
+    console.error('Erro ao obter estado do localStorage:', error)
+    return ''
+  }
+}
+
+function saveSearchTermOnLocalStorage(searchTerm: string) {
+  try {
+    localStorage.setItem('afreact_search_term', searchTerm)
+  } catch (error) {
+    console.error('Erro ao salvar estado no localStorage:', error)
+  }
+}
+
 const useProducts = (): ProductsContextValue => {
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [searchProductName, setSearchProductName] = useState('')
+  const [searchProductName, setSearchProductName] = useState(
+    loadSearchTermFromLocalStorage(),
+  )
+  const [currentPage, setCurrentPage] = useState<number>(
+    loadCurrentPageFromLocalStorage(),
+  )
   const [sortByFilterOption, setSortByFilterOption] =
     useState('_publishedAt_DESC')
-
-  const productsPerPage = 6
 
   const [cartProductsState, cartProductsDispatch] = useReducer(
     cartProductsReducer,
     loadCartStateFromLocalStorage() as never,
   )
 
+  const productsPerPage = 6
+
   function handleSearchProductByName(searchTerm: string) {
     setSearchProductName(searchTerm)
+
+    saveSearchTermOnLocalStorage(searchTerm)
+    saveCurrentPageOnLocalStorage(1)
     setCurrentPage(1)
   }
 
@@ -207,14 +263,21 @@ const useProducts = (): ProductsContextValue => {
   const totalCartPrice = cartProductsState?.totalPrice
 
   function goToNextPage() {
-    setCurrentPage((currentPage) => currentPage + 1)
+    setCurrentPage((currentPage) => {
+      saveCurrentPageOnLocalStorage(currentPage + 1)
+      return currentPage + 1
+    })
   }
 
   function goToPrevPage() {
-    setCurrentPage((currentPage) => currentPage - 1)
+    setCurrentPage((currentPage) => {
+      saveCurrentPageOnLocalStorage(currentPage - 1)
+      return currentPage - 1
+    })
   }
 
   function goToClickedPage(pageNumber: number) {
+    saveCurrentPageOnLocalStorage(pageNumber)
     setCurrentPage(pageNumber)
   }
 
@@ -316,6 +379,7 @@ const useProducts = (): ProductsContextValue => {
     productsAddedToCart,
     handleChangeOptionOfSortByFilter,
     handleSearchProductByName,
+    searchProductName,
     productsPerPage,
   }
 }
@@ -335,6 +399,7 @@ const ProductsProvider = ({ children }: ProductsProviderProps) => {
     productsAddedToCart,
     handleChangeOptionOfSortByFilter,
     handleSearchProductByName,
+    searchProductName,
     productsPerPage,
   } = useProducts()
 
@@ -354,6 +419,7 @@ const ProductsProvider = ({ children }: ProductsProviderProps) => {
         productsAddedToCart,
         handleChangeOptionOfSortByFilter,
         handleSearchProductByName,
+        searchProductName,
         productsPerPage,
       }}
     >

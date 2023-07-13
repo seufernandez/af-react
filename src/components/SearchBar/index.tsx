@@ -10,30 +10,44 @@ import {
 import { useProductsContext } from '../../hooks/useProduct'
 
 export function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState('')
+  const { handleSearchProductByName, searchProductName } = useProductsContext()
+  const [searchTerm, setSearchTerm] = useState(searchProductName)
+  const [timer, setTimer] = useState<number | null>(null)
 
-  const { handleSearchProductByName } = useProductsContext()
+  useEffect(() => {
+    return () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+    }
+  }, [timer])
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
+    const value = event.target.value
+    setSearchTerm(value)
+
+    if (timer !== null) {
+      clearTimeout(timer)
+    }
+
+    if (value !== '') {
+      const newTimer = window.setTimeout(() => {
+        performSearch(value)
+      }, 500) // Atraso de 300ms
+      setTimer(newTimer)
+    } else {
+      clearSearch()
+    }
+  }
+
+  const performSearch = (value: string) => {
+    handleSearchProductByName(value)
   }
 
   const clearSearch = () => {
     setSearchTerm('')
+    handleSearchProductByName('')
   }
-
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>
-    const performSearch = () => {
-      handleSearchProductByName(searchTerm)
-    }
-    const debouncedSearch = () => {
-      clearTimeout(timer)
-      timer = setTimeout(performSearch, 500)
-    }
-    debouncedSearch()
-    return () => clearTimeout(timer)
-  }, [searchTerm])
 
   return (
     <label>
