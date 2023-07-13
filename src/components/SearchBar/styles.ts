@@ -9,7 +9,8 @@ export const SearchBarContainer = styled.div`
 
   border-radius: 0.5rem;
 
-  max-width: 20rem;
+  width: 20rem;
+  min-width: 8rem;
   height: 3rem;
   background-color: ${(props) => props.theme['gray-100']};
 
