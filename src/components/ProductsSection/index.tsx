@@ -1,3 +1,4 @@
+import { useEffect, useCallback } from 'react'
 import { useProductsContext } from '../../hooks/useProduct'
 import { ProductsFilter } from '../ProductsFilter'
 
@@ -9,6 +10,18 @@ import { ProductItemComponent } from '../ProductItemComponent'
 export function ProductsSection() {
   const { products, isLoadingProducts, errorLoadingProducts } =
     useProductsContext()
+
+  const scrollToTop = useCallback(() => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop
+    if (scrollTop > 0) {
+      window.requestAnimationFrame(scrollToTop)
+      window.scrollTo(0, scrollTop - scrollTop / 30)
+    }
+  }, [])
+
+  useEffect(() => {
+    scrollToTop() // Inicia a animação de rolagem
+  }, [products, scrollToTop]) // Executa o efeito sempre que a localização mudar
 
   if (isLoadingProducts) {
     return (
